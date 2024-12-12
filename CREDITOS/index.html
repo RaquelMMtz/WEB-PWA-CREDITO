@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Inicio de Sesión - Aplicación de Crédito</title>
+    <style>
+        
+        #loginIcon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+       
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+            width: 300px;
+        }
+
+        #customAlert p {
+            font-size: 16px;
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+
+        #customAlert img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        #customAlert button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #customAlert button:hover {
+            background-color: #0056b3;
+        }
+
+       
+        #alertBackground {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-panel">
+        <h1 class="title">CREDITOS</h1>
+        <img src="assets/images/Logo.png" alt="Logo Créditos" class="credit-image">
+
+        <div class="input-group">
+            <img src="assets/images/usuario.png" alt="Usuario Icono" class="icon">
+            <input type="text" id="username" placeholder="Usuario" class="input-text">
+        </div>
+
+        <div class="input-group">
+            <img src="assets/images/Contraseña.png" alt="Contraseña Icono" class="icon">
+            <input type="password" id="password" placeholder="Contraseña" class="input-text">
+        </div>
+
+        <button id="loginButton" class="btn">
+            <img src="assets/images/login2.png" alt="Iniciar Sesión Icono" id="loginIcon">Iniciar Sesión
+        </button>
+        <a href="#" id="registerLink" class="register-link">¿No tienes una cuenta? Regístrate aquí</a>
+    </div>
+
+
+    <div id="alertBackground"></div>
+    <div id="customAlert">
+        <img id="alertIcon" src="" alt="Alerta Icono">
+        <p id="alertMessage"></p>
+        <button id="closeAlertButton">Cerrar</button>
+    </div>
+
+    <script>
+        
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+        const registerLink = document.getElementById('registerLink');
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = document.getElementById('alertIcon');
+        const closeAlertButton = document.getElementById('closeAlertButton');
+        const alertBackground = document.getElementById('alertBackground');
+
+        
+        function mostrarAlerta(mensaje, tipo) {
+            alertMessage.textContent = mensaje;
+
+            
+            switch (tipo) {
+                case 'error':
+                    alertIcon.src = 'assets/images/war.png';
+                    break;
+                case 'success':
+                    alertIcon.src = 'assets/images/nice.png';
+                    break;
+                case 'warning':
+                    alertIcon.src = 'assets/images/war.png';
+                    break;
+                default:
+                    alertIcon.src = 'assets/images/nice.png';
+                    break;
+            }
+
+            customAlert.style.display = 'block';
+            alertBackground.style.display = 'block';
+        }
+
+       
+        closeAlertButton.addEventListener('click', function() {
+            customAlert.style.display = 'none';
+            alertBackground.style.display = 'none';
+        });
+
+       
+        loginButton.addEventListener('click', function() {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                mostrarAlerta('Por favor, complete todos los campos.', 'warning');
+                return;
+            }
+
+            if (username !== 'Raquel' || password !== '123456') {
+                mostrarAlerta('Usuario o contraseña incorrectos.', 'error');
+                return;
+            }
+
+            mostrarAlerta('Inicio de sesión exitoso.', 'success'); 
+            setTimeout(() => {
+                window.location.href = 'main_menu.html';
+            }, 1500); 
+        });
+
+        
+        registerLink.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            window.location.href = 'register.html'; 
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Registro de Usuario - Aplicación de Crédito</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(90deg, rgba(0, 51, 102, 1) 0%, rgba(102, 178, 255, 1) 100%);
+        }
+
+        .register-panel {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: auto;
+        }
+
+        .user-image {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+            font-size: 12px;
+        }
+
+        .input-text {
+            width: calc(100% - 110px);
+            margin-left: 10px;
+            padding: 6px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .btn {
+            width: 70%;
+            padding: 10px;
+            margin: 10px auto;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        #submitButton {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        #submitButton:hover {
+            background-color: #005bb5;
+        }
+
+        #regresarButton {
+            background-color: #87CEEB;
+            color: white;
+        }
+
+        #regresarButton:hover {
+            background-color: #4682B4;
+        }
+
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 250px;
+        }
+
+        #customAlert img {
+            width: 30px;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        #customAlert p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        #alertBackground {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #customAlert button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-panel">
+        <img src="assets/images/Logo.png" alt="Logo" class="logo">
+        <h1 class="title" style="font-size: 16px;">Registro de Usuario</h1>
+        <img src="assets/images/UsuNv.png" alt="Usuario" class="user-image">
+
+        <div class="input-group">
+            <label for="name" class="input-label">Nombre:</label>
+            <input type="text" id="name" class="input-text" placeholder="Nombre">
+        </div>
+
+        <div class="input-group">
+            <label for="lastName" class="input-label">Apellido:</label>
+            <input type="text" id="lastName" class="input-text" placeholder="Apellido">
+        </div>
+
+        <div class="input-group">
+            <label for="email" class="input-label">Correo:</label>
+            <input type="email" id="email" class="input-text" placeholder="Correo electrónico">
+        </div>
+
+        <div class="input-group">
+            <label for="phone" class="input-label">Teléfono:</label>
+            <input type="tel" id="phone" class="input-text" placeholder="Número de teléfono">
+        </div>
+
+        <div class="input-group">
+            <label for="username" class="input-label">Usuario:</label>
+            <input type="text" id="username" class="input-text" placeholder="Usuario">
+        </div>
+
+        <div class="input-group">
+            <label for="password" class="input-label">Contraseña:</label>
+            <input type="password" id="password" class="input-text" placeholder="Contraseña">
+        </div>
+
+        <div class="input-group">
+            <input type="checkbox" id="showPassword">
+            <label for="showPassword">Mostrar contraseña</label>
+        </div>
+
+        <button id="submitButton" class="btn">
+            <img src="assets/images/ok.png" alt="Icono Registrar" class="icon">Registrar
+        </button>
+
+        <button id="regresarButton" class="btn">
+            <img src="assets/images/back.png" alt="Icono Regresar" class="icon">Regresar
+        </button>
+    </div>
+
+ 
+    <div id="alertBackground"></div>
+    <div id="customAlert">
+        <img id="alertIcon" src="" alt="Ícono de alerta">
+        <p id="alertMessage"></p>
+        <button id="closeAlert">Cerrar</button>
+    </div>
+
+    <script>
+        const customAlert = document.getElementById('customAlert');
+        const alertBackground = document.getElementById('alertBackground');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = document.getElementById('alertIcon');
+        const closeAlertButton = document.getElementById('closeAlert');
+        const showPasswordCheckbox = document.getElementById('showPassword');
+        const passwordInput = document.getElementById('password');
+
+        function capitalizeWords(input) {
+            return input.replace(/\b\w/g, (char) => char.toUpperCase());
+        }
+
+        
+        document.getElementById('name').addEventListener('blur', function() {
+            this.value = capitalizeWords(this.value.toLowerCase());
+        });
+
+        document.getElementById('lastName').addEventListener('blur', function() {
+            this.value = capitalizeWords(this.value.toLowerCase());
+        });
+
+      
+        function showAlert(message, type, callback = null) {
+            alertMessage.textContent = message;
+            alertIcon.src = type === 'success'
+                ? 'assets/images/nice.png'
+                : type === 'error'
+                ? 'assets/images/mal.png'
+                : 'assets/images/war.png';
+
+            customAlert.style.display = 'block';
+            alertBackground.style.display = 'block';
+
+            closeAlertButton.onclick = () => {
+                customAlert.style.display = 'none';
+                alertBackground.style.display = 'none';
+
+                
+                if (callback) callback();
+            };
+        }
+
+        
+        function isValidEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+      
+        document.getElementById('submitButton').addEventListener('click', () => {
+            const name = document.getElementById('name').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const inappropriateWords = ["puta", "perra", "idiota", "estupido", "pendejo"];
+
+            if (!name || !lastName || !email || !phone || !username || !password) {
+                showAlert('Por favor, complete todos los campos.', 'warning');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showAlert('Ingrese un correo válido.', 'error');
+                return;
+            }
+
+            if (inappropriateWords.some(word => name.toLowerCase().includes(word) || lastName.toLowerCase().includes(word))) {
+                showAlert('Se detectaron palabras inapropiadas.', 'error');
+                return;
+            }
+
+            showAlert('Registro completado exitosamente.', 'success', () => {
+                window.location.href = 'main_menu.html'; 
+            });
+        });
+
+        
+        document.getElementById('regresarButton').addEventListener('click', () => {
+            window.location.href = 'index.html'; 
+        });
+
+        
+        showPasswordCheckbox.addEventListener('change', () => {
+            passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+        });
+    </script>
+</body>
+</html>

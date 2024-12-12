@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <title>Inicio de Sesión - Aplicación de Crédito</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #003366, #0066cc);
+        }
+
+        .login-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .title {
+            color: #003366;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .credit-image {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            background: #f9f9f9;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            background: transparent;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background-color: #004c99;
+        }
+
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        #customAlert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+            width: 300px;
+        }
+
+        #customAlert p {
+            font-size: 16px;
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+
+        #customAlert img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        #customAlert button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #customAlert button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-panel">
+        <h1 class="title">CREDITOS</h1>
+        <img src="assets/Logo.png" alt="Logo Créditos" class="credit-image">
+
+        <div class="input-group">
+            <img src="assets/usuario.png" alt="Usuario Icono" class="icon">
+            <input type="text" id="username" placeholder="Usuario" class="input-text">
+        </div>
+
+        <div class="input-group">
+            <img src="assets/Contraseña.png" alt="Contraseña Icono" class="icon">
+            <input type="password" id="password" placeholder="Contraseña" class="input-text">
+        </div>
+
+        <button id="loginButton" class="btn">
+            <img src="assets/login2.png" alt="Iniciar Sesión Icono" class="icon">Iniciar Sesión
+        </button>
+        <a href="#" id="registerLink" class="register-link">¿No tienes una cuenta? Regístrate aquí</a>
+    </div>
+
+    <div id="customAlert">
+        <img id="alertIcon" src="" alt="Alerta Icono">
+        <p id="alertMessage"></p>
+        <button id="closeAlertButton">Cerrar</button>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+        const registerLink = document.getElementById('registerLink');
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = document.getElementById('alertIcon');
+        const closeAlertButton = document.getElementById('closeAlertButton');
+
+        function showAlert(message, type) {
+            alertMessage.textContent = message;
+
+            switch (type) {
+                case 'error':
+                    alertIcon.src = 'assets/mal.png';
+                    break;
+                case 'success':
+                    alertIcon.src = 'assets/nice.png';
+                    break;
+                case 'warning':
+                    alertIcon.src = 'assets/war.png';
+                    break;
+                default:
+                    alertIcon.src = 'assets/war.png';
+                    break;
+            }
+
+            customAlert.style.display = 'block';
+        }
+
+        closeAlertButton.addEventListener('click', () => {
+            customAlert.style.display = 'none';
+        });
+
+        loginButton.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                showAlert('Por favor, complete todos los campos.', 'warning');
+                return;
+            }
+
+            if (username === 'Raquel' && password === '123456') {
+                showAlert('Inicio de sesión exitoso.', 'success');
+                setTimeout(() => {
+                    window.location.href = 'main_menu.html';
+                }, 1500);
+            } else {
+                showAlert('Usuario o contraseña incorrectos.', 'error');
+            }
+        });
+
+        registerLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = 'register.html';
+        });
+    </script>
+</body>
+</html>
